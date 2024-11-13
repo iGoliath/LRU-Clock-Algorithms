@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/bigmanoncampus/VSCode/LRU/LRU'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x1000036A8, symSize: 0x50 }
+  - { offsetInCU: 0x96, offset: 0x96, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x1000036A8, symSize: 0x50 }
+  - { offsetInCU: 0xCC, offset: 0xCC, size: 0x8, addend: 0x0, symName: _LRUReplacement, symObjAddr: 0x50, symBinAddr: 0x1000036F8, symSize: 0x758 }
+  - { offsetInCU: 0x19A, offset: 0x19A, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x7A8, symBinAddr: 0x100003E50, symSize: 0x54 }
+...
