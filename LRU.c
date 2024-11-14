@@ -14,8 +14,13 @@ typedef struct LRUNode {
 
 typedef struct ClockNode {
     int value;
-    
+    struct ClockNode *next;
+    struct ClockNode *last;
 } ClockNode;
+
+typedef struct SecondChance {
+    int chance1, chance2, chance3;
+} SecondChance;
 
 
 LRUNode* createLRUNode(int value) {
@@ -25,7 +30,23 @@ LRUNode* createLRUNode(int value) {
     node->next = NULL;
     node->last = NULL;
     return node;
-}
+} 
+
+ClockNode* createClockNode(int value) {
+    ClockNode* node = (ClockNode*)malloc(sizeof(ClockNode));
+    node->value = value;
+    node->next = NULL;
+    node->last = NULL;
+    return node;
+} 
+
+SecondChance* createSecondChanceStruct() {
+    SecondChance* node = (SecondChance*)malloc(sizeof(SecondChance));
+    node->chance1 = 0;
+    node->chance2 = 0;
+    node->chance3 = 0;
+    return node;
+} 
 
 void LRUReplacement(FILE* file) {
     LRUNode* head = createLRUNode(100);
@@ -154,12 +175,45 @@ free(node);
 free(node2);
 
 }
+
+void ClockReplacement(FILE* file) {
+    int buf;
+    fscanf(file, "%d, ", &buf);
+    ClockNode* node = createClockNode(buf);
+    fscanf(file, "%d, ", &buf);
+    ClockNode* node2 = createClockNode(buf);
+    fscanf(file, "%d, ", &buf);
+    ClockNode* node3 = createClockNode(buf);
+    node->next = node2;
+    node->last = node3;
+    node2->next = node3;
+    node2->last = node;
+    node3->next = node;
+    node3->last = node2;
+
+    printf("\n\nInitial Frames: %d, %d, %d\n", node->value, node2->value, node3->value);
+    
+    char c = fgetc(file);
+    ungetc(c, file);
+    ClockNode* ptrNode = node;
+    SecondChance* chanceNode = createSecondChanceStruct();
+    while(c != 'r') {
+        fscanf(file, "%d, ", &buf);
+        if (ptrNode->value == buf) {
+            chanceNode->chance1 = 1;
+            break;
+        }
+
+    }
+}
 int main() {
     FILE* file = fopen("Pages.txt", "r");
     LRUReplacement(file);
     LRUReplacement(file);
     LRUReplacement(file);
     LRUReplacement(file);
-    
+    fclose(file);
 
+    FILE* file2 = fopen("Pages.txt", "r");
+    ClockReplacement(file2);
 }
