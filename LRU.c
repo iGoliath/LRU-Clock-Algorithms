@@ -13,15 +13,10 @@ typedef struct LRUNode {
 } LRUNode;
 
 typedef struct ClockNode {
-    int value;
+    int value, secondChance;
     struct ClockNode *next;
     struct ClockNode *last;
 } ClockNode;
-
-typedef struct SecondChance {
-    int chance1, chance2, chance3;
-} SecondChance;
-
 
 LRUNode* createLRUNode(int value) {
     LRUNode* node = (LRUNode*)malloc(sizeof(LRUNode));
@@ -35,18 +30,12 @@ LRUNode* createLRUNode(int value) {
 ClockNode* createClockNode(int value) {
     ClockNode* node = (ClockNode*)malloc(sizeof(ClockNode));
     node->value = value;
+    node->secondChance = 0;
     node->next = NULL;
     node->last = NULL;
     return node;
 } 
 
-SecondChance* createSecondChanceStruct() {
-    SecondChance* node = (SecondChance*)malloc(sizeof(SecondChance));
-    node->chance1 = 0;
-    node->chance2 = 0;
-    node->chance3 = 0;
-    return node;
-} 
 
 void LRUReplacement(FILE* file) {
     LRUNode* head = createLRUNode(100);
@@ -64,8 +53,8 @@ void LRUReplacement(FILE* file) {
     node->next = node2;
     fscanf(file, "%d, ", &buf);
     LRUNode* node3 = createLRUNode(buf);
-     node3->last = node2;
-     node3->next = tail;
+    node3->last = node2;
+    node3->next = tail;
     node2->next = node3;
     node3->lastUsed = 0;
     tail->last = node3;
@@ -196,15 +185,63 @@ void ClockReplacement(FILE* file) {
     char c = fgetc(file);
     ungetc(c, file);
     ClockNode* ptrNode = node;
-    SecondChance* chanceNode = createSecondChanceStruct();
-    while(c != 'r') {
+    while(c != '\r') {
         fscanf(file, "%d, ", &buf);
         if (ptrNode->value == buf) {
-            chanceNode->chance1 = 1;
-            break;
+            ptrNode->secondChance = 1;
+            c = fgetc(file);
+            ungetc(c, file);
+             printf("\nCurrent Frames: %d, %d, %d", ptrNode->value, ptrNode->next->value, ptrNode->next->next->value);
+            printf("\nCurrent second chances: %d, %d, %d", ptrNode->secondChance, ptrNode->next->secondChance, ptrNode->next->next->secondChance);
+            continue;
+           
+        }
+        else if (ptrNode->next->value == buf) {
+            ptrNode->next->secondChance = 1;
+            c = fgetc(file);
+            ungetc(c, file);
+             printf("\nCurrent Frames: %d, %d, %d", ptrNode->value, ptrNode->next->value, ptrNode->next->next->value);
+            printf("\nCurrent second chances: %d, %d, %d", ptrNode->secondChance, ptrNode->next->secondChance, ptrNode->next->next->secondChance);
+            continue;
+        }
+        else if (ptrNode->next->next->value == buf) {
+            ptrNode->next->next->secondChance = 1;
+            c = fgetc(file);
+            ungetc(c, file);
+             printf("\nCurrent Frames: %d, %d, %d", ptrNode->value, ptrNode->next->value, ptrNode->next->next->value);
+            printf("\nCurrent second chances: %d, %d, %d", ptrNode->secondChance, ptrNode->next->secondChance, ptrNode->next->next->secondChance);
+            continue;
         }
 
+        if (ptrNode->secondChance == 0) {
+            ClockNode* newNode = createClockNode(buf);
+            newNode->next = ptrNode->next;
+            newNode->last = ptrNode->last;
+            ptrNode->last->next = newNode;
+            ptrNode->next->last = newNode;
+            ptrNode = newNode->next;
+        }
+        else {
+            ptrNode->secondChance = 0;
+            ptrNode = ptrNode->next;
+            if (ptrNode->secondChance == 1) {
+                ptrNode->secondChance = 0;
+                ptrNode = ptrNode->next;
+            }
+            ClockNode* newNode = createClockNode(buf);
+            newNode->next = ptrNode->next;
+            newNode->last = ptrNode->last;
+             ptrNode->last->next = newNode;
+            ptrNode->next->last = newNode;
+            ptrNode = newNode->next;
+        }
+         printf("\nCurrent Frames: %d, %d, %d", ptrNode->value, ptrNode->next->value, ptrNode->next->next->value);
+            printf("\nCurrent second chances: %d, %d, %d", ptrNode->secondChance, ptrNode->next->secondChance, ptrNode->next->next->secondChance);
+        c = fgetc(file);
+            ungetc(c, file);
     }
+
+
 }
 int main() {
     FILE* file = fopen("Pages.txt", "r");
@@ -216,4 +253,8 @@ int main() {
 
     FILE* file2 = fopen("Pages.txt", "r");
     ClockReplacement(file2);
+    ClockReplacement(file2);
+    ClockReplacement(file2);
+    ClockReplacement(file2);
+
 }

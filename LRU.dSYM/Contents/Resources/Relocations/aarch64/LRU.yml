@@ -2,8 +2,10 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/bigmanoncampus/VSCode/LRU/LRU'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x1000036A8, symSize: 0x50 }
-  - { offsetInCU: 0x96, offset: 0x96, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x1000036A8, symSize: 0x50 }
-  - { offsetInCU: 0xCC, offset: 0xCC, size: 0x8, addend: 0x0, symName: _LRUReplacement, symObjAddr: 0x50, symBinAddr: 0x1000036F8, symSize: 0x758 }
-  - { offsetInCU: 0x19A, offset: 0x19A, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x7A8, symBinAddr: 0x100003E50, symSize: 0x54 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x100002FE0, symSize: 0x50 }
+  - { offsetInCU: 0xE4, offset: 0xE4, size: 0x8, addend: 0x0, symName: _createLRUNode, symObjAddr: 0x0, symBinAddr: 0x100002FE0, symSize: 0x50 }
+  - { offsetInCU: 0x11A, offset: 0x11A, size: 0x8, addend: 0x0, symName: _createClockNode, symObjAddr: 0x50, symBinAddr: 0x100003030, symSize: 0x50 }
+  - { offsetInCU: 0x150, offset: 0x150, size: 0x8, addend: 0x0, symName: _LRUReplacement, symObjAddr: 0xA0, symBinAddr: 0x100003080, symSize: 0x758 }
+  - { offsetInCU: 0x21E, offset: 0x21E, size: 0x8, addend: 0x0, symName: _ClockReplacement, symObjAddr: 0x7F8, symBinAddr: 0x1000037D8, symSize: 0x5EC }
+  - { offsetInCU: 0x2CE, offset: 0x2CE, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xDE4, symBinAddr: 0x100003DC4, symSize: 0x94 }
 ...
